@@ -41,8 +41,8 @@ exports.convert = (document, format, filter, callback) => {
         },
         saveSource: callback => fs.writeFile(path.join(tempDir.name, 'source'), document, callback),
         convert: ['soffice', 'saveSource', (results, callback) => {
-            let command = `${results.soffice} -env:UserInstallation=file://${installDir.name} --headless --convert-to ${format}`;
-            if (filter !== undefined) {
+            let command = `${results.soffice} --headless --convert-to ${format}`;
+            if (filter != undefined) {
                 command += `:"${filter}"`;
             }
             command += ` --outdir ${tempDir.name} ${path.join(tempDir.name, 'source')}`;
@@ -53,7 +53,7 @@ exports.convert = (document, format, filter, callback) => {
             async.retry({
                 times: 3,
                 interval: 200
-            }, (callback) => fs.readFile(path.join(tempDir.name, 'source'), callback), callback)
+            }, (callback) => fs.readFile(path.join(tempDir.name, `source.${format}`), callback), callback)
         ]
     }, (err, res) => {
         tempDir.removeCallback();
