@@ -53,7 +53,7 @@ exports.convert = (document, format, filter, callback) => {
             async.retry({
                 times: 3,
                 interval: 200
-            }, (callback) => fs.readFile(path.join(tempDir.name, `source.${format}`), callback), callback)
+            }, (callback) => fs.readFile(path.join(tempDir.name, 'source'), callback), callback)
         ]
     }, (err, res) => {
         tempDir.removeCallback();
